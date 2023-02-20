@@ -1,4 +1,4 @@
-package br.com.schmidt.appwithtdd
+package br.com.schmidt.appwithtdd.playlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

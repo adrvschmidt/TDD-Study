@@ -2,6 +2,7 @@ package br.com.schmidt.appwithtdd
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import br.com.schmidt.appwithtdd.playlist.PlaylistFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

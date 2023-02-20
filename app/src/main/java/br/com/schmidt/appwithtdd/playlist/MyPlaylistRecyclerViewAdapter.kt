@@ -1,14 +1,11 @@
-package br.com.schmidt.appwithtdd
+package br.com.schmidt.appwithtdd.playlist
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-
-import br.com.schmidt.appwithtdd.placeholder.PlaceholderContent.PlaceholderItem
-import br.com.schmidt.appwithtdd.databinding.FragmentPlaylistBinding
+import br.com.schmidt.appwithtdd.R
 import br.com.schmidt.appwithtdd.databinding.PlaylistItemBinding
 
 class MyPlaylistRecyclerViewAdapter(
@@ -31,7 +28,7 @@ class MyPlaylistRecyclerViewAdapter(
         val item = values[position]
         holder.playlistName.text = item.name
         holder.playlistCategory.text = item.category
-        holder.playlistImage.setImageResource(item.image)
+        holder.playlistImage.setImageResource(R.mipmap.playlist)
     }
 
     override fun getItemCount(): Int = values.size

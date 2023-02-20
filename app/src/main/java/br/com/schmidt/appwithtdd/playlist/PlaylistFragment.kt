@@ -1,4 +1,4 @@
-package br.com.schmidt.appwithtdd
+package br.com.schmidt.appwithtdd.playlist
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import br.com.schmidt.appwithtdd.R
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * A fragment representing a list of Items.
@@ -17,7 +21,16 @@ class PlaylistFragment : Fragment() {
 
     lateinit var viewModel: PlaylistViewModel
     lateinit var viewModelFactory: PlaylistViewModelFactory
-    private val repository = PlaylistRepository()
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://171e1301-5e74-4de4-8444-6cab6b8fe20a.mock.pstmn.io/")
+        .client(OkHttpClient())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val api = retrofit.create(PlaylistAPI::class.java)
+    private val service = PlaylistService(api)
+    private val repository = PlaylistRepository(service)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,9 +40,11 @@ class PlaylistFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_playlist, container, false)
         setupViewModel()
 
-        viewModel.playlist.observe(this as LifecycleOwner) { result ->
-            if(result.isSuccess) {
-                setupList(view, result.getOrDefault(null)!!)
+        viewModel.playlists.observe(this as LifecycleOwner) { playlists ->
+            if (playlists.getOrNull() != null)
+                setupList(view, playlists.getOrNull()!!)
+            else {
+                //TODO
             }
         }
 
