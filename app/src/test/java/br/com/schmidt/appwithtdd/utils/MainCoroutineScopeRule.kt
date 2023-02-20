@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.schmidt.appwithtdd
+package br.com.schmidt.appwithtdd.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

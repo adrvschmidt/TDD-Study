@@ -1,4 +1,4 @@
-package br.com.schmidt.appwithtdd
+package br.com.schmidt.appwithtdd.utils
 
 import org.junit.Test
 
