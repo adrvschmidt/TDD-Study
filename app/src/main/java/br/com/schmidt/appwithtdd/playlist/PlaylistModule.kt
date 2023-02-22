@@ -1,5 +1,6 @@
 package br.com.schmidt.appwithtdd.playlist
 
+import com.jakewharton.espresso.OkHttp3IdlingResource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -8,6 +9,8 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+val client = OkHttpClient()
+val idlingResource = OkHttp3IdlingResource.create("okhttp", client)
 @Module
 @InstallIn(FragmentComponent::class)
 class PlaylistModule {
@@ -19,7 +22,7 @@ class PlaylistModule {
     @Provides
     fun retrofit(): Retrofit = Retrofit.Builder()
             .baseUrl("https://171e1301-5e74-4de4-8444-6cab6b8fe20a.mock.pstmn.io/")
-            .client(OkHttpClient())
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 }

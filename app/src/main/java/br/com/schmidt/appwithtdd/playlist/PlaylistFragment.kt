@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.schmidt.appwithtdd.R
+import br.com.schmidt.appwithtdd.databinding.FragmentPlaylistBinding
+import br.com.schmidt.appwithtdd.databinding.PlaylistItemBinding
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -21,6 +23,8 @@ class PlaylistFragment : Fragment() {
 
     lateinit var viewModel: PlaylistViewModel
 
+    private lateinit var binding: FragmentPlaylistBinding
+
     @Inject
     lateinit var viewModelFactory: PlaylistViewModelFactory
 
@@ -29,18 +33,25 @@ class PlaylistFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_playlist, container, false)
+        binding = FragmentPlaylistBinding.inflate(inflater, container, false)
         setupViewModel()
+
+        viewModel.loader.observe(this as LifecycleOwner) { loading ->
+            when(loading){
+                true -> binding.loader.visibility = View.VISIBLE
+                else -> binding.loader.visibility = View.GONE
+            }
+        }
 
         viewModel.playlists.observe(this as LifecycleOwner) { playlists ->
             if (playlists.getOrNull() != null)
-                setupList(view, playlists.getOrNull()!!)
+                setupList(binding.playlistsList, playlists.getOrNull()!!)
             else {
                 //TODO
             }
         }
 
-        return view
+        return binding.root
     }
 
     private fun setupList(view: View, playlist: List<Playlist>) {
