@@ -32,13 +32,19 @@ class PlaylistFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentPlaylistBinding.inflate(inflater, container, false)
         setupViewModel()
 
+        setupObservables()
+
+        return binding.root
+    }
+
+    private fun setupObservables() {
         viewModel.loader.observe(this as LifecycleOwner) { loading ->
-            when(loading){
+            when (loading) {
                 true -> binding.loader.visibility = View.VISIBLE
                 else -> binding.loader.visibility = View.GONE
             }
@@ -51,8 +57,6 @@ class PlaylistFragment : Fragment() {
                 //TODO
             }
         }
-
-        return binding.root
     }
 
     private fun setupList(view: View, playlist: List<Playlist>) {

@@ -3,6 +3,7 @@ package br.com.schmidt.appwithtdd
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.schmidt.appwithtdd.playlist.idlingResource
 import org.hamcrest.Description
@@ -10,10 +11,14 @@ import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 abstract class BaseUITest {
+
+    val activityRule = ActivityScenarioRule(MainActivity::class.java)
+        @Rule get
 
     @Before
     fun setup(){
