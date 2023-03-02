@@ -48,7 +48,7 @@ class PlaylistDetailFragment : Fragment() {
 
     private fun setupViewText(playlistsDetails: PlaylistsDetails?) {
         playlistsDetails?.let { details ->
-            binding.playlistName.text = details.name
+            binding.playlistNameDetails.text = details.name
             binding.playlistDetails.text = details.details
         }
     }

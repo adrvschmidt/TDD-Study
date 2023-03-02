@@ -16,5 +16,4 @@ class PlaylistService @Inject constructor(
             emit(Result.failure(RuntimeException("Something went wrong")))
         }
     }
-
 }
