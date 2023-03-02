@@ -1,10 +1,12 @@
 package br.com.schmidt.appwithtdd.details
 
+import br.com.schmidt.appwithtdd.playlist.PlaylistViewModel
 import br.com.schmidt.appwithtdd.utils.BaseUnitTest
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -50,5 +52,34 @@ class PlaylistsDetailsViewModelShould : BaseUnitTest() {
         viewModel = PlaylistDetailsViewModel(service)
         viewModel.getPlaylistDetails(id)
         assertEquals(error, viewModel.playlistsDetails.value)
+    }
+
+    @Test
+    fun showSpinnerWhileLoading() = runTest {
+        whenever(service.fetchPlaylistDetails(id)).thenReturn(
+            flow {
+                emit(expected)
+            }
+        )
+        viewModel = PlaylistDetailsViewModel(service)
+        viewModel.loader.runCatching {
+            print(viewModel.loader.value)
+            assertEquals(true, viewModel.loader.value)
+        }
+    }
+
+    @Test
+    fun closeLoaderAfterPlaylistsLoad() = runTest {
+        whenever(service.fetchPlaylistDetails(id)).thenReturn(
+            flow {
+                emit(expected)
+            }
+        )
+        viewModel = PlaylistDetailsViewModel(service)
+        viewModel.getPlaylistDetails(id)
+        viewModel.loader.observeForever {
+            print(it)
+            assertEquals(false, it)
+        }
     }
 }

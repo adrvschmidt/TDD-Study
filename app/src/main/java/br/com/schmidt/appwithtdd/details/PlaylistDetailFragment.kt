@@ -36,7 +36,14 @@ class PlaylistDetailFragment : Fragment() {
         return binding.root
     }
 
+
     private fun setupObservers() {
+        viewModel.loader.observe(this as LifecycleOwner) { loading ->
+            when (loading) {
+                true -> binding.detailsLoader.visibility = View.VISIBLE
+                else -> binding.detailsLoader.visibility = View.GONE
+            }
+        }
         viewModel.playlistsDetails.observe(this as LifecycleOwner) { playlistsDetails ->
             if (playlistsDetails.getOrNull() != null)
                 setupViewText(playlistsDetails.getOrNull())
