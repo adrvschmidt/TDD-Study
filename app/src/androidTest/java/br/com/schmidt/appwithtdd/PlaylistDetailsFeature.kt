@@ -19,7 +19,7 @@ class PlaylistDetailsFeature: BaseUITest() {
 
     @Test
     fun displaysPlaylistNameAndDetails() {
-        navigateToPlayListDetails()
+        navigateToPlayListDetails(0)
 
         assertDisplayed(R.id.playlist_name_details)
         assertDisplayed(R.id.playlist_details)
@@ -32,7 +32,7 @@ class PlaylistDetailsFeature: BaseUITest() {
 
     @Test
     fun displaysLoaderWhileFetchingThePlaylistDetails(){
-        navigateToPlayListDetails()
+        navigateToPlayListDetails(0)
 
         IdlingRegistry.getInstance().unregister(idlingResource)
 
@@ -41,21 +41,34 @@ class PlaylistDetailsFeature: BaseUITest() {
 
     @Test
     fun hidesLoader() {
-        navigateToPlayListDetails()
+        navigateToPlayListDetails(0)
 
         IdlingRegistry.getInstance().unregister(idlingResource)
         Thread.sleep(3000)
         assertNotDisplayed(R.id.details_loader)
     }
 
-    private fun navigateToPlayListDetails() {
+    @Test
+    fun displayNetworkErrorWhenNotConnected() {
+        navigateToPlayListDetails(1)
+        assertDisplayed(R.string.generic_error)
+    }
+
+    @Test
+    fun hideDisplayNetworkErrorMessageWhenNotConnected() {
+        navigateToPlayListDetails(1)
+        Thread.sleep(3500)
+        assertNotDisplayed(R.string.generic_error)
+    }
+
+    private fun navigateToPlayListDetails(position: Int) {
         onView(
             Matchers.allOf(
                 ViewMatchers.withId(R.id.playlist_image),
                 ViewMatchers.isDescendantOfA(
                     nthChildOf(
                         ViewMatchers.withId(R.id.playlists_list),
-                        0
+                        position
                     )
                 )
             )

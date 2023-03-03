@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import br.com.schmidt.appwithtdd.R
 import br.com.schmidt.appwithtdd.databinding.FragmentPlaylistDetailBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -48,7 +50,7 @@ class PlaylistDetailFragment : Fragment() {
             if (playlistsDetails.getOrNull() != null)
                 setupViewText(playlistsDetails.getOrNull())
             else {
-                //TODO
+                Snackbar.make(binding.root, R.string.generic_error, Snackbar.LENGTH_LONG).show()
             }
         }
     }
